@@ -1,0 +1,52 @@
+# Example CloudOps MCP config for CLOUDOPS_MCP_MODE=aws.
+#
+# Values below are placeholders: no real account ID, ARN, or credential ever
+# belongs in this file. AWS credentials are never read from here, they come
+# entirely from boto3's standard provider chain (AWS_PROFILE, AWS_REGION /
+# AWS_DEFAULT_REGION, environment credentials, or an IAM role).
+#
+# service + environment stay the public identity. Everything under
+# [services.logs] and [services.metrics] is AWS-specific detail that never
+# leaves the provider layer.
+
+[[services]]
+name = "checkout-api"
+environment = "production"
+
+[services.logs]
+provider = "aws_cloudwatch"
+log_group = "/aws/lambda/checkout-api"
+
+[services.metrics]
+provider = "aws_cloudwatch"
+snapshot_metrics = ["request_count", "latency_p99"]
+
+[services.metrics.queries.request_count]
+namespace = "AWS/Lambda"
+metric_name = "Invocations"
+statistic = "Sum"
+period_seconds = 60
+unit = "count"
+
+[services.metrics.queries.request_count.dimensions]
+FunctionName = "checkout-api"
+
+[services.metrics.queries.latency_p99]
+namespace = "AWS/Lambda"
+metric_name = "Duration"
+statistic = "p99"
+period_seconds = 60
+unit = "milliseconds"
+
+[services.metrics.queries.latency_p99.dimensions]
+FunctionName = "checkout-api"
+
+[services.metrics.queries.error_count]
+namespace = "AWS/Lambda"
+metric_name = "Errors"
+statistic = "Sum"
+period_seconds = 60
+unit = "count"
+
+[services.metrics.queries.error_count.dimensions]
+FunctionName = "checkout-api"

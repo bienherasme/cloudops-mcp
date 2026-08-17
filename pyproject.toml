@@ -1,0 +1,73 @@
+[project]
+name = "cloudops-mcp"
+version = "0.1.0"
+description = "Read-only MCP server exposing normalized operational infrastructure context to AI agents."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Bienvenido Herasme" },
+]
+keywords = [
+    "mcp",
+    "model-context-protocol",
+    "cloudwatch",
+    "observability",
+    "aws",
+    "ai-agents",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Monitoring",
+]
+dependencies = [
+    "mcp>=2.0.0",
+    "pydantic>=2.7",
+]
+
+[project.urls]
+Repository = "https://github.com/bienherasme/cloudops-mcp"
+Issues = "https://github.com/bienherasme/cloudops-mcp/issues"
+
+[project.scripts]
+cloudops-mcp = "cloudops_mcp.server:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+aws = [
+    "boto3>=1.34,<2",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true

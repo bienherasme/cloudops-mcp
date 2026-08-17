@@ -4,7 +4,7 @@
 
 CloudOps MCP is a read-oriented Model Context Protocol server for exposing operational infrastructure data to AI agents through a small set of well-defined tools.
 
-The goal is to provide a consistent interface over operational signals such as logs, metrics, deployments, service health, and infrastructure state without giving the agent unrestricted access to infrastructure systems.
+The goal is to provide a consistent interface over operational signals such as logs, metrics, deployments, and service health without giving the agent unrestricted access to infrastructure systems.
 
 ## Initial Scope
 
@@ -30,6 +30,8 @@ The system will separate:
 - transport and configuration
 
 Provider integrations should remain behind narrow interfaces so the MCP contract is not coupled to a specific cloud or observability vendor.
+
+Service identity is normalized across providers: a service is identified by name and environment, with vendor-specific references kept internal to provider bindings rather than exposed in the public contract.
 
 The initial implementation may use simulated providers before real integrations are introduced.
 
